@@ -403,6 +403,7 @@ GameObject:
   - component: {fileID: 76922828}
   - component: {fileID: 76922826}
   - component: {fileID: 76922827}
+  - component: {fileID: 76922829}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -435,7 +436,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 76922822}
   m_BodyType: 0
-  m_Simulated: 1
+  m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
@@ -468,6 +469,7 @@ MonoBehaviour:
   enablePlayerWrap: 1
   jumpForce: 15
   movementSpeed: 10
+  movementLerpSpeed: 0.9
   squashScale: {x: 1.4, y: 0.6}
   stretchScale: {x: 0.8, y: 1.2}
   totalDuration: 0.3
@@ -523,6 +525,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.76494807, y: 0.2625383}
   m_EdgeRadius: 0
+--- !u!114 &76922829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76922822}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53385209ce2fa1545bc7ca7270fdfb99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 10
 --- !u!1 &222068112
 GameObject:
   m_ObjectHideFlags: 0

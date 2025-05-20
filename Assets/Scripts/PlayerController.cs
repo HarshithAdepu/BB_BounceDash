@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 	[ SerializeField ] private bool enablePlayerWrap = true;
 	[ SerializeField ] private float jumpForce;
 	[ SerializeField ] private float movementSpeed;
+	[ SerializeField ] private float touchMovementSpeed = 10f;
 
 	[ Header( "Jump Tween Parameters" ) ] [ SerializeField ]
 	private Vector2 squashScale;
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 	private Transform playerVisual;
 	private InputActions inputActions;
 	private GameManager gameManagerRef;
+	private Camera mainCam;
 
 	private bool isAlive = true;
 	private bool boostInvincibilityEnabled = false;
@@ -45,6 +47,7 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		gameManagerRef = GameManager.Instance;
+		mainCam = Camera.main;
 		playerVisual = transform.GetChild( 0 );
 	}
 
@@ -60,6 +63,36 @@ public class PlayerController : MonoBehaviour
 
 	private void Update()
 	{
+#if UNITY_ANDROID || UNITY_IOS
+		/*if ( Input.touchCount > 0 )
+		{
+			Touch touch = Input.GetTouch( 0 );
+			Vector3 touchPosition = Camera.main.ScreenToWorldPoint( touch.position );
+
+			moveInput = new Vector2( touchPosition.x, playerRb.position.y ).x;
+		}*/
+
+		if ( Input.touchCount > 0 )
+		{
+			Touch touch = Input.GetTouch( 0 ); // Get first touch
+			Vector3 touchPosition = mainCam.ScreenToWorldPoint( touch.position );
+			touchPosition.z = 0f; // Ensure z is 0 for 2D
+
+			// Calculate target position (only X changes)
+			Vector3 targetPosition = new Vector3( touchPosition.x, playerRb.position.y, 0f );
+
+			// Move using Rigidbody2D
+			Vector2 velocity = playerRb.linearVelocity;
+			velocity.x = ( targetPosition.x - playerRb.position.x ) * touchMovementSpeed;
+			playerRb.linearVelocity = velocity;
+		}
+		else
+		{
+			// Stop horizontal movement when no touch
+			playerRb.linearVelocity = new Vector2( 0f, playerRb.linearVelocity.y );
+		}
+#endif
+
 		if ( enablePlayerWrap )
 		{
 			CheckPlayerWrap();
@@ -78,7 +111,12 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+#if UNITY_ANDROID || UNITY_IOS
+		float newX = Mathf.MoveTowards( transform.position.x, moveInput, touchMovementSpeed );
+		playerRb.MovePosition( new Vector2( newX, playerRb.position.y ) );
+#else
 		playerRb.linearVelocityX = moveInput * movementSpeed;
+#endif
 	}
 
 	private void OnDisable()
@@ -159,7 +197,9 @@ public class PlayerController : MonoBehaviour
 
 	private void OnMoveAction( InputAction.CallbackContext context )
 	{
+#if !UNITY_ANDROID || !UNITY_IOS
 		moveInput = context.ReadValue<float>();
+#endif
 	}
 
 	private void OnBoostTriggered( Boost boost )
