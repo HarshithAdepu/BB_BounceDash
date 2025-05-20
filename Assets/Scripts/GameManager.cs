@@ -48,9 +48,12 @@ public class GameManager : MonoBehaviour
 			PlayerPrefs.SetInt( "CoinsOwned", 0 );
 		}
 
-		gameUIRef.UpdateCoins( coinsOwned );
+		Debug.Log("Coins Owned" + coinsOwned);
+		gameUIRef.UpdateCoins(coinsOwned);
 
 		CalculateScreenBounds();
+
+		Application.targetFrameRate = 90;
 	}
 
 	public void AddCoins( int value )
@@ -61,8 +64,13 @@ public class GameManager : MonoBehaviour
 
 	public void PlayerDied()
 	{
-		Debug.Log( "Player died! Restarting..." );
-		Invoke( nameof(RestartGame), 3f );
+		PlayerPrefs.SetInt("CoinsOwned", coinsOwned);
+		Invoke(nameof(ShowRestartScreen), 3f);
+	}
+
+	private void ShowRestartScreen()
+	{
+		gameUIRef.PlayerDied(MaxHeightReached);
 	}
 
 	private void CalculateScreenBounds()

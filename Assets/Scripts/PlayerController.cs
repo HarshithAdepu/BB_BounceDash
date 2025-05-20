@@ -11,8 +11,9 @@ public class PlayerController : MonoBehaviour
 	[ SerializeField ] private float jumpForce;
 	[ SerializeField ] private float movementSpeed;
 	[ SerializeField ] private float touchMovementSpeed = 10f;
+	[SerializeField] private float touchDeadZone = 0.1f;
 
-	[ Header( "Jump Tween Parameters" ) ] [ SerializeField ]
+	[ Header("Jump Tween Parameters") ] [ SerializeField ]
 	private Vector2 squashScale;
 
 	[ SerializeField ] private Vector2 stretchScale;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
 
 	private float moveInput;
 	private Transform playerVisual;
+	private SpriteRenderer playerSpriteRenderer;
 	private InputActions inputActions;
 	private GameManager gameManagerRef;
 	private Camera mainCam;
@@ -49,6 +51,7 @@ public class PlayerController : MonoBehaviour
 		gameManagerRef = GameManager.Instance;
 		mainCam = Camera.main;
 		playerVisual = transform.GetChild( 0 );
+		playerSpriteRenderer = playerVisual.GetComponent<SpriteRenderer>();
 	}
 
 	private void OnEnable()
@@ -64,32 +67,28 @@ public class PlayerController : MonoBehaviour
 	private void Update()
 	{
 #if UNITY_ANDROID || UNITY_IOS
-		/*if ( Input.touchCount > 0 )
+		if (Input.touchCount > 0)
 		{
-			Touch touch = Input.GetTouch( 0 );
-			Vector3 touchPosition = Camera.main.ScreenToWorldPoint( touch.position );
+			Touch touch = Input.GetTouch(0);
+			Vector3 touchPosition = mainCam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 1f));
+			touchPosition.z = 0f;
 
-			moveInput = new Vector2( touchPosition.x, playerRb.position.y ).x;
-		}*/
-
-		if ( Input.touchCount > 0 )
-		{
-			Touch touch = Input.GetTouch( 0 ); // Get first touch
-			Vector3 touchPosition = mainCam.ScreenToWorldPoint( touch.position );
-			touchPosition.z = 0f; // Ensure z is 0 for 2D
-
-			// Calculate target position (only X changes)
-			Vector3 targetPosition = new Vector3( touchPosition.x, playerRb.position.y, 0f );
-
-			// Move using Rigidbody2D
-			Vector2 velocity = playerRb.linearVelocity;
-			velocity.x = ( targetPosition.x - playerRb.position.x ) * touchMovementSpeed;
-			playerRb.linearVelocity = velocity;
+			if (touchPosition.x < transform.position.x - touchDeadZone)
+			{
+				moveInput = -1;
+			}
+			else if (touchPosition.x > transform.position.x + touchDeadZone)
+			{
+				moveInput = 1;
+			}
+			else
+			{
+				moveInput = 0;
+			}
 		}
 		else
 		{
-			// Stop horizontal movement when no touch
-			playerRb.linearVelocity = new Vector2( 0f, playerRb.linearVelocity.y );
+			moveInput = 0f;
 		}
 #endif
 
@@ -103,7 +102,7 @@ public class PlayerController : MonoBehaviour
 			boostInvincibilityEnabled = false;
 		}
 
-		if ( transform.position.y > gameManagerRef.MaxHeightReached )
+		if ( (int) transform.position.y > gameManagerRef.MaxHeightReached )
 		{
 			gameManagerRef.MaxHeightReached = ( int )transform.position.y;
 		}
@@ -111,12 +110,15 @@ public class PlayerController : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-#if UNITY_ANDROID || UNITY_IOS
-		float newX = Mathf.MoveTowards( transform.position.x, moveInput, touchMovementSpeed );
-		playerRb.MovePosition( new Vector2( newX, playerRb.position.y ) );
-#else
 		playerRb.linearVelocityX = moveInput * movementSpeed;
-#endif
+		if (playerRb.linearVelocityX < 0)
+		{
+			playerSpriteRenderer.flipX = true;
+		}
+		else if (playerRb.linearVelocityX > 0)
+		{
+			playerSpriteRenderer.flipX = false;
+		}
 	}
 
 	private void OnDisable()
@@ -249,7 +251,7 @@ public class PlayerController : MonoBehaviour
 	{
 		enabled = false;
 		playerVisual.transform.DOKill();
-		SpriteRenderer playerSpriteRenderer = playerVisual.GetComponent<SpriteRenderer>();
+		playerSpriteRenderer = playerVisual.GetComponent<SpriteRenderer>();
 		playerSpriteRenderer.DOKill();
 
 		playerSpriteRenderer.sprite = hitOutlineSprite;

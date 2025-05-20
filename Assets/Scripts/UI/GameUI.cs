@@ -88,6 +88,12 @@ public class GameUI : MonoBehaviour
 		AnimateText( hudCoinText );
 	}
 
+	public void PlayerDied(int score)
+	{
+		restartMenu.gameObject.SetActive(true);
+		restartMenuScoreText.text = "Score:" + score;
+	}
+
 	private void hudPauseButton_OnClick()
 	{
 		GameManager.Instance.PauseGame();
