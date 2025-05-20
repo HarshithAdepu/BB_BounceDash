@@ -35,6 +35,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""TouchMove"",
+                    ""type"": ""Value"",
+                    ""id"": ""0fdf0ca0-01bf-4a04-af60-24e0b70a35c1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -73,12 +82,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""bb6a4bfc-98db-4d0d-81e5-f23aa95decc3"",
-                    ""path"": ""<Touchscreen>/position/x"",
+                    ""id"": ""126d0162-9a5d-4458-bc3a-f453ad06c2a5"",
+                    ""path"": ""<Touchscreen>/position"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""TouchMove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -90,6 +99,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_TouchMove = m_Player.FindAction("TouchMove", throwIfNotFound: true);
     }
 
     ~@InputActions()
@@ -157,11 +167,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Player;
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_TouchMove;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
         public PlayerActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @TouchMove => m_Wrapper.m_Player_TouchMove;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -174,6 +186,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
+            @TouchMove.started += instance.OnTouchMove;
+            @TouchMove.performed += instance.OnTouchMove;
+            @TouchMove.canceled += instance.OnTouchMove;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -181,6 +196,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
+            @TouchMove.started -= instance.OnTouchMove;
+            @TouchMove.performed -= instance.OnTouchMove;
+            @TouchMove.canceled -= instance.OnTouchMove;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -201,5 +219,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public interface IPlayerActions
     {
         void OnMove(InputAction.CallbackContext context);
+        void OnTouchMove(InputAction.CallbackContext context);
     }
 }

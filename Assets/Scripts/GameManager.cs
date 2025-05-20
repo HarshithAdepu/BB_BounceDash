@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
 	public static GameManager Instance;
-	public bool isGameRunning = false;
+
+	[ SerializeField ] private float delayAfterDeath = 1f;
 	public Vector2 screenBoundsXAxis = Vector2.zero;
 	private int coinsOwned = 0;
 	[ field: SerializeField ] public float YBuffer { get; private set; }
@@ -48,8 +49,8 @@ public class GameManager : MonoBehaviour
 			PlayerPrefs.SetInt( "CoinsOwned", 0 );
 		}
 
-		Debug.Log("Coins Owned" + coinsOwned);
-		gameUIRef.UpdateCoins(coinsOwned);
+		Debug.Log( "Coins Owned" + coinsOwned );
+		gameUIRef.UpdateCoins( coinsOwned );
 
 		CalculateScreenBounds();
 
@@ -64,13 +65,13 @@ public class GameManager : MonoBehaviour
 
 	public void PlayerDied()
 	{
-		PlayerPrefs.SetInt("CoinsOwned", coinsOwned);
-		Invoke(nameof(ShowRestartScreen), 3f);
+		PlayerPrefs.SetInt( "CoinsOwned", coinsOwned );
+		Invoke( nameof(ShowRestartScreen), delayAfterDeath );
 	}
 
 	private void ShowRestartScreen()
 	{
-		gameUIRef.PlayerDied(MaxHeightReached);
+		gameUIRef.PlayerDied( MaxHeightReached );
 	}
 
 	private void CalculateScreenBounds()

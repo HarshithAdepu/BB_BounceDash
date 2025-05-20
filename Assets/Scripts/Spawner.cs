@@ -85,8 +85,6 @@ public class Spawner : MonoBehaviour
 
 	private void FixedUpdate()
 	{
-		if ( gameManagerRef.isGameRunning ) { }
-
 		CheckSpawnConditions();
 	}
 
@@ -215,7 +213,7 @@ public class Spawner : MonoBehaviour
 			return;
 		}
 
-		float xPos = Random.Range( -1f, 1f );
+		float xPos = Random.Range( -0.5f, 0.5f );
 		float yPos = 0.1f;
 		Vector3 spawnPosition = new Vector3( xPos, yPos, lastPlatformLocation.z );
 

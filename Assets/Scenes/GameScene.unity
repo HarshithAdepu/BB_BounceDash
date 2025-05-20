@@ -320,7 +320,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.79357034, g: 0.21226418, b: 1, a: 1}
+  m_Color: {r: 0.6603774, g: 0.4777861, b: 0.36445355, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -420,7 +420,7 @@ Transform:
   m_GameObject: {fileID: 76922822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.95, z: 0}
+  m_LocalPosition: {x: 0, y: 1.29, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -583,7 +583,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36698ae7765d62e40ac15b92245e6cfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isGameRunning: 0
+  delayAfterDeath: 1
   screenBoundsXAxis: {x: 0, y: 0}
   <YBuffer>k__BackingField: 20
 --- !u!1 &349254556
@@ -828,8 +828,6 @@ MonoBehaviour:
   pauseMenu: {fileID: 1186780190}
   restartMenu: {fileID: 1801019478}
   hudPauseButton: {fileID: 349254558}
-  hudMoveLeftButton: {fileID: 0}
-  hudMoveRightButton: {fileID: 0}
   hudScoreText: {fileID: 1126864342}
   hudCoinText: {fileID: 587011033}
   pauseMenuResumeButton: {fileID: 1244014666}
@@ -995,7 +993,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.98823535, g: 0.8745099, b: 0.80392164, a: 0}
+  m_BackGroundColor: {r: 0.9528302, g: 0.8280366, b: 0.7505785, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2082,7 +2080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformPrefab: {fileID: 8949258512657512953, guid: 696c647ec5fee6e4d92df654fee62d9e, type: 3}
-  spawnDistance: 2
+  spawnDistance: 1.5
   yVariance: 1
   xOffsetRange: {x: -3, y: 3}
   scaleRange: {x: 1, y: 3}

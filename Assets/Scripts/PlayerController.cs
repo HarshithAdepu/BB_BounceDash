@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
 	[ SerializeField ] private float jumpForce;
 	[ SerializeField ] private float movementSpeed;
 	[ SerializeField ] private float touchMovementSpeed = 10f;
-	[SerializeField] private float touchDeadZone = 0.1f;
+	[ SerializeField ] private float touchDeadZone = 0.1f;
 
-	[ Header("Jump Tween Parameters") ] [ SerializeField ]
+	[ Header( "Jump Tween Parameters" ) ] [ SerializeField ]
 	private Vector2 squashScale;
 
 	[ SerializeField ] private Vector2 stretchScale;
@@ -67,17 +67,18 @@ public class PlayerController : MonoBehaviour
 	private void Update()
 	{
 #if UNITY_ANDROID || UNITY_IOS
-		if (Input.touchCount > 0)
+		Vector2 touch = inputActions.Player.TouchMove.ReadValue<Vector2>();
+
+		if ( touch != Vector2.zero )
 		{
-			Touch touch = Input.GetTouch(0);
-			Vector3 touchPosition = mainCam.ScreenToWorldPoint(new Vector3(touch.position.x, touch.position.y, 1f));
+			Vector3 touchPosition = mainCam.ScreenToWorldPoint( new Vector3( touch.x, touch.y, 1f ) );
 			touchPosition.z = 0f;
 
-			if (touchPosition.x < transform.position.x - touchDeadZone)
+			if ( touchPosition.x < transform.position.x - touchDeadZone )
 			{
 				moveInput = -1;
 			}
-			else if (touchPosition.x > transform.position.x + touchDeadZone)
+			else if ( touchPosition.x > transform.position.x + touchDeadZone )
 			{
 				moveInput = 1;
 			}
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
 			boostInvincibilityEnabled = false;
 		}
 
-		if ( (int) transform.position.y > gameManagerRef.MaxHeightReached )
+		if ( ( int )transform.position.y > gameManagerRef.MaxHeightReached )
 		{
 			gameManagerRef.MaxHeightReached = ( int )transform.position.y;
 		}
@@ -111,11 +112,11 @@ public class PlayerController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		playerRb.linearVelocityX = moveInput * movementSpeed;
-		if (playerRb.linearVelocityX < 0)
+		if ( playerRb.linearVelocityX < 0 )
 		{
 			playerSpriteRenderer.flipX = true;
 		}
-		else if (playerRb.linearVelocityX > 0)
+		else if ( playerRb.linearVelocityX > 0 )
 		{
 			playerSpriteRenderer.flipX = false;
 		}

@@ -13,6 +13,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "TouchMove",
+                    "type": "Value",
+                    "id": "0fdf0ca0-01bf-4a04-af60-24e0b70a35c1",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -51,12 +60,12 @@
                 },
                 {
                     "name": "",
-                    "id": "bb6a4bfc-98db-4d0d-81e5-f23aa95decc3",
-                    "path": "<Touchscreen>/position/x",
+                    "id": "126d0162-9a5d-4458-bc3a-f453ad06c2a5",
+                    "path": "<Touchscreen>/position",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "TouchMove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
