@@ -156,7 +156,6 @@ public class Spawner : MonoBehaviour
 		}
 
 		int extraType = Random.Range( 0, 4 );
-		Debug.Log( extraType );
 		switch ( extraType )
 		{
 			case 0:
