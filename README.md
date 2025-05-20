@@ -1,9 +1,28 @@
 # Bounce Dash
 
 ## Game Overview
+
 **Bounce Dash** is a hyper-casual 2D arcade-style game where the player controls a character that automatically bounces vertically, moving left or right to dodge obstacles (rotating blades, spikes) and collect coins to score points. The level scrolls upward as the player climbs, with the goal of achieving the highest score based on height reached
 
+## Release
+
+- **Windows** and **Android** builds available for download in the [releases](https://github.com/HarshithAdepu/BB_BounceDash/releases) section.
+- YouTube Video Link: [BounceDash Assignment Video](https://youtube.com/shorts/H4qBZSbODVM?feature=share)
+
+## Getting Started
+
+1. **Prerequisites**: Unity 6, Input System, and DOTween packages.
+2. **Setup**:
+   - Clone the GitHub repository.
+   - Open in Unity 6.
+   - Add "MainMenu" and "GameScene" to build settings.
+3. **Running the Game**:
+   - Start in the "MainMenu" scene.
+   - Click "Play" to load "GameScene".
+   - Use the controls to navigate and collect coins.
+
 ## Controls
+
 - **Keyboard (PC):**
   - **Move Left**: `A` or Left Arrow key
   - **Move Right**: `D` or Right Arrow key
@@ -18,13 +37,16 @@
   - **Exit**: Click the exit button to return to the main menu or quit.
 
 ## Known Issues
+
 - **Mobile Input Responsiveness**: Touch controls may feel slightly delayed on low-end devices due to unoptimized `touchMovementSpeed`.
 - **Landscape Support**: The UI is not currently setup for landscape orientation.
 - **Obstacle Variety**: Limited to rotating blades and spikes; additional obstacle types could enhance gameplay variety.
 - **Platform Spawning**: There is a very small chance of two vertical moving platforms spawning too far from each other and the player is unable to make any progress.
 
 ## Game Feel and Optimization
+
 The game emphasizes a smooth, responsive feel through:
+
 - **DOTween Animations**: Squash-and-stretch effects on the ball and pulsating UI text enhance visual feedback.
 - **Smooth Camera**: `Vector3.SmoothDamp` ensures fluid camera movement, keeping the player in focus.
 - **Persistence**: Coin count is saved using `PlayerPrefs`.
@@ -33,6 +55,7 @@ The game emphasizes a smooth, responsive feel through:
 - **Animations**: DOTween manages platform movement, UI animations, and ball visual effects, with cleanup via `DOKill`.
 
 ## Potential Improvements
+
 1. **Further Optimization**:
    - Reduce garbage by pooling the dynamically spawning objects such as platforms, obstacles and pickups.
    - Mobile movement currently works on `Update` loop. It can be moved to event-based logic.
@@ -41,6 +64,7 @@ The game emphasizes a smooth, responsive feel through:
    - Include background music and sound effects.
    - Add haptic vibrations on death and purchase.
 3. **Shop System**:
+
    - Implement the store feature in `MainMenuUI.cs` for purchasing skins (color/icon changes) and upgrades.
    - Upgrades data can be stored in scriptable objects for configuration.
    - Use `PlayerPrefs` to save purchased items.
@@ -58,14 +82,3 @@ The game emphasizes a smooth, responsive feel through:
    - Scrolling background with parallax effect to improve sense of vertical movement.
    - Add menu transition animations.
    - Implement high score leaderboards.
-
-## Getting Started
-1. **Prerequisites**: Unity 6, Input System, and DOTween packages.
-2. **Setup**:
-   - Clone the GitHub repository.
-   - Open in Unity 6.
-   - Add "MainMenu" and "GameScene" to build settings.
-3. **Running the Game**:
-   - Start in the "MainMenu" scene.
-   - Click "Play" to load "GameScene".
-   - Use the controls to navigate and collect coins.
