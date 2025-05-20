@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
 	private void Start()
 	{
 		gameUIRef = GameUI.Instance;
+		Time.timeScale = 1;
 
 		if ( PlayerPrefs.HasKey( "CoinsOwned" ) )
 		{
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
 
 		Debug.Log( "Coins Owned" + coinsOwned );
 		gameUIRef.UpdateCoins( coinsOwned );
+		gameUIRef.UpdateScore( MaxHeightReached );
 
 		CalculateScreenBounds();
 
